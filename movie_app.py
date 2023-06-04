@@ -2,11 +2,13 @@ import statistics
 import requests
 import random
 import movies_website_creation
+from istorage import IStorage
+from movie_utilities import get_movie_details_by_name
 from storage_JSON import StorageJson
 
 
 class MovieApp:
-    def __init__(self, storage):
+    def __init__(self, storage: IStorage):
         self._storage = storage
 
     def _command_list_movies(self):
@@ -57,10 +59,12 @@ class MovieApp:
             if new_movie_name in movies:
                 print(f"Movie {new_movie_name} already exists!")
                 return
-            if self._storage.add_movie(new_movie_name) == 0:
+
+            movie_details = get_movie_details_by_name(new_movie_name)
+            if movie_details is None:
                 print(f"I'm sorry, {new_movie_name} doesn't exist in the database.")
             else:
-                movies = self._storage.add_movie(new_movie_name)
+                movies = self._storage.add_movie(new_movie_name, movie_details["Year"], movie_details["Rating"], movie_details["Poster"])
                 print(f"Movie {new_movie_name} successfully added")
         except requests.exceptions.RequestException as connection_error:
             print(f"I'm sorry, there has been an error: {connection_error}")
@@ -125,7 +129,8 @@ class MovieApp:
     def _generate_website(self):
         """Accesses the website generating function from the movies_website_creation file, and confirms to
             the user that the website was created"""
-        movies_website_creation.create_website()
+        movies = self._storage.list_movies()
+        movies_website_creation.create_website(movies)
         print("Your website was successfully created!\n")
 
     def run(self):

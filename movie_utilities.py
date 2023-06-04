@@ -15,7 +15,7 @@ def parses_rating(movie_info):
 def get_movie_details_by_name(movie_name):
     """To receive a user input for a movie name, and contact an API using this input
     to search for the movie, and return the required movie details i.e. title, rating, year
-    of release and poster url. Returns dict: {year: year, rating: rating, poster: poster} """
+    of release and poster url. Returns dict: {"Year": year, "Rating": rating, "Poster": poster} """
     movie_to_add = requests.get(API_address, params={'t': f'{movie_name}', 'r': 'json'}).json()
     if movie_to_add["Response"] == "False":
         return None
@@ -23,4 +23,4 @@ def get_movie_details_by_name(movie_name):
         year = movie_to_add["Year"]
         rating = parses_rating(movie_to_add)
         poster = movie_to_add["Poster"]
-        return {"year": year, "rating": rating, "poster": poster}
+        return {"Year": year, "Rating": rating, "Poster": poster}

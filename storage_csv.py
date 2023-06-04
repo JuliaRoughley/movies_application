@@ -45,26 +45,17 @@ class StorageCSV(IStorage):
         and saves it. The function doesn't need to validate the input.
         """
         movies = self.list_movies()
-        # TODO: Move API calls from CSV-specific class
-        movie_to_add = requests.get(API_address, params={'t': f'{title}', 'r': 'json'}).json()
-        if movie_to_add["Response"] == "False":
-            return 0
-        else:
-            year = movie_to_add["Year"]
-            rating = parses_rating(movie_to_add)
-            poster = movie_to_add["Poster"]
-            movies[title] = {"Rating": rating, "Year": year, "Poster": poster}
-            with open(self.file_path, 'w', newline='') as file:
-                writer = csv.DictWriter(file, fieldnames=['Title', 'Rating', 'Year', 'Poster'])
-                writer.writeheader()
-                for movie_title, movie_data in movies.items():
-                    writer.writerow({
-                        'Title': movie_title,
-                        'Rating': movie_data['Rating'],
-                        'Year': movie_data['Year'],
-                        'Poster': movie_data['Poster']
-                    })
-            return 1
+        movies[title] = {"Rating": rating, "Year": year, "Poster": poster}
+        with open(self.file_path, 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['Title', 'Rating', 'Year', 'Poster'])
+            writer.writeheader()
+            for movie_title, movie_data in movies.items():
+                writer.writerow({
+                    'Title': movie_title,
+                    'Rating': movie_data['Rating'],
+                    'Year': movie_data['Year'],
+                    'Poster': movie_data['Poster']
+                })
 
     def delete_movie(self, title):
         """

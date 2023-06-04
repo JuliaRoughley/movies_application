@@ -1,11 +1,12 @@
 import movie_utilities
 import json
+from istorage import IStorage
 
 
 def loads_html_file():
     """The function loads and returns the code from the html template file ready for easy access
     in the other functions"""
-    with open("index_template.html", "r") as file_obj:
+    with open("index_html.html", "r") as file_obj:
         template_html = file_obj.read()
     return template_html
 
@@ -49,22 +50,21 @@ def serialize_movie_data(movie, info):
     return movie_data_str
 
 
-def parses_movie_data():
+def parses_movie_data(list_of_movies):
     """Loops through the whole dictionary applying the serializing function to each dictionary item, creating
     one long string and then returns that string to be used in html generation"""
-    movie_data = movie_storage.list_movies()
     movie_data_str = ""
-    for movie, info in movie_data.items():
+    for movie, info in list_of_movies.items():
         movie_data_str += serialize_movie_data(movie, info)
     return movie_data_str
 
 
-def create_website():
+def create_website(list_of_movies):
     """This function generates the website - it parses the movie data using the previous functions and saves as
     a variable, then updates the title placeholder in the template html file, whilst creating a new file. This is then
     updated again via replacing the template movie grid text with the movie data that has been parsed, and re-writes
     the file"""
-    movie_data = parses_movie_data()
+    movie_data = parses_movie_data(list_of_movies)
     updated_title_html = replace_html_template_title()
     updated_html_movie_data = updated_title_html.replace("__TEMPLATE_MOVIE_GRID__", movie_data)
     with open("movies.html", "w") as updated_movie_html_file:

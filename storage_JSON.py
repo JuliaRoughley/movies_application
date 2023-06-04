@@ -39,18 +39,9 @@ class StorageJson(IStorage):
             and saves it. The function doesn't need to validate the input.
             """
         movies = self.list_movies()
-        # TODO: Move API calls from JSON-specific class
-        movie_to_add = requests.get(API_address, params={'t': f'{title}', 'r': 'json'}).json()
-        if movie_to_add["Response"] == "False":
-            return 0
-        else:
-            year = movie_to_add["Year"]
-            rating = parses_rating(movie_to_add)
-            poster = movie_to_add["Poster"]
-            movies[title] = {"Year": year, "Rating": rating, "Poster": poster}
-            with open(self.file_path, 'w') as file:
-                json.dump(movies, file)
-            return 1
+        movies[title] = {"Year": year, "Rating": rating, "Poster": poster}
+        with open(self.file_path, 'w') as file:
+            json.dump(movies, file)
 
     def delete_movie(self, title):
         """
