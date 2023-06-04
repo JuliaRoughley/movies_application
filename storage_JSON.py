@@ -1,7 +1,7 @@
 import json
 import requests
 from istorage import IStorage
-from movie_storage import parses_rating, API_address
+from movie_utilities import parses_rating, API_address
 
 
 class StorageJson(IStorage):
