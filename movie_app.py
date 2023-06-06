@@ -4,7 +4,6 @@ import random
 import movies_website_creation
 from istorage import IStorage
 from movie_utilities import get_movie_details_by_name
-from storage_JSON import StorageJson
 
 
 class MovieApp:
@@ -64,7 +63,8 @@ class MovieApp:
             if movie_details is None:
                 print(f"I'm sorry, {new_movie_name} doesn't exist in the database.")
             else:
-                movies = self._storage.add_movie(new_movie_name, movie_details["Year"], movie_details["Rating"], movie_details["Poster"])
+                movies = self._storage.add_movie(new_movie_name, movie_details["Year"], movie_details["Rating"],
+                                                 movie_details["Poster"])
                 print(f"Movie {new_movie_name} successfully added")
         except requests.exceptions.RequestException as connection_error:
             print(f"I'm sorry, there has been an error: {connection_error}")

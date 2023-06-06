@@ -1,7 +1,5 @@
 import json
-import requests
 from istorage import IStorage
-from movie_utilities import parses_rating, API_address
 
 
 class StorageJson(IStorage):
@@ -34,7 +32,7 @@ class StorageJson(IStorage):
 
     def add_movie(self, title, year, rating, poster):
         """
-            Adds a movie to the movies database.
+            Adds a movie to the 'movies' database.
             Loads the information from the JSON file, add the movie,
             and saves it. The function doesn't need to validate the input.
             """
@@ -45,7 +43,7 @@ class StorageJson(IStorage):
 
     def delete_movie(self, title):
         """
-            Deletes a movie from the movies database.
+            Deletes a movie from the 'movies' database.
             Loads the information from the JSON file, deletes the movie,
             and saves it. The function doesn't need to validate the input.
             """
@@ -59,7 +57,7 @@ class StorageJson(IStorage):
 
     def update_movie(self, title, notes):
         """
-            Updates a movie from the movies database.
+            Updates a movie from the 'movies' database.
             Loads the information from the JSON file, updates the movie,
             and saves it. The function doesn't need to validate the input.
             """
